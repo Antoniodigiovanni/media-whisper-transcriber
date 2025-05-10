@@ -1,5 +1,10 @@
 from pytubefix import YouTube
 import logging, io
+import requests
+import xml.etree.ElementTree as ET
+import os
+import re
+from urllib.parse import urlparse
 
 def download_mp3_from_youtube(youtube_url: str, save_file=False, filename=None) -> bytes:
     logging.getLogger("pytube").setLevel(logging.INFO)
