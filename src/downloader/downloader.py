@@ -3,10 +3,11 @@ import logging, io
 import requests
 import xml.etree.ElementTree as ET
 import os
-import re
 from urllib.parse import urlparse
 
-def download_mp3_from_youtube(youtube_url: str, save_file=False, filename=None) -> bytes:
+from src.utils.utils import get_safe_file_name
+
+def download_mp3_from_youtube(youtube_url: str, save_file=False, download_dir='downloads', filename=None) -> bytes:
     logging.getLogger("pytube").setLevel(logging.INFO)
     yt = YouTube(youtube_url)
     video = yt.streams.filter(only_audio=True).first()
@@ -15,11 +16,13 @@ def download_mp3_from_youtube(youtube_url: str, save_file=False, filename=None) 
     buffer.seek(0)
     if save_file:
         if filename is None:
-            filename = yt.title + ".mp3"
-        with open(filename, "wb") as f:
+            filename = get_safe_file_name(yt.title + ".mp3")
+            file_path = download_dir + '/' + filename
+        with open(file_path, "wb") as f:
             f.write(buffer.read())
             buffer.close()
             logging.log(logging.INFO, f"Saved {filename}")
+            return file_path
     else:
         logging.log(logging.INFO, f"Downloaded {yt.title} to buffer")
         return buffer.read()
@@ -115,8 +118,8 @@ def download_podcast_from_podcastindex_url(feed_url, media_type="audio/mpeg", do
     # Download selected episodes
     downloaded = []
     for episode in selected_episodes:
-        # Create a safe filename from the title
-        safe_title = re.sub(r'[^\w\-_.]', '_', episode['title'])
+        # safe_title = re.sub(r'[^\w\-_.]', '_', episode['title'])
+        safe_title = get_safe_file_name(episode['title'])
         
         # Extract filename from URL or use the safe title
         url_path = urlparse(episode['url']).path
