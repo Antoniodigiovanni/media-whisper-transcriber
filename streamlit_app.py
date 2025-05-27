@@ -15,7 +15,12 @@ from src.transcription.local_model import Model
 from src.downloader.downloader import download_mp3_from_youtube, download_podcast_from_podcastindex_url
 
 load_dotenv()
-st.set_page_config(page_title="Whisper Media Transcriber", layout="wide")
+
+# Create folder if it doesn't exist
+if not os.path.exists('./downloads'):
+    os.makedirs('./downloads')
+
+st.set_page_config(page_title="Whisper AI - Media Transcriber", layout="wide")
 
 def main():
     st.title("Whisper Audio Transcriber")
