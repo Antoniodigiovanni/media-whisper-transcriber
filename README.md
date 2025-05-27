@@ -19,7 +19,7 @@ Whisper AI Transcriber is a media transcription app that leverages OpenAI's Whis
 ### Prerequisites
 
 - Docker installed and running
-- An Groq API key with Whisper access or enough computational resources to run Whisper locally
+- A Groq API key with Whisper access or enough computational resources to run Whisper locally
 
 ### Setup
 
