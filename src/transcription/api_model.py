@@ -22,7 +22,7 @@ class ApiModel():
     self.return_text_only = return_text_only
 
     if prompt is None:
-      self.prompt = "You are translating podcasts held in Italian in which one or more speakers are talking. Please transcribe the audio in Italian."
+      self.prompt = "You are translating audio files in a precise and contextual way."
 
   
   def transcribe(self, filename, return_text_only=None):
